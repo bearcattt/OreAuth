@@ -2,11 +2,13 @@ const secretInput = document.getElementById("secret");
 const totpDisplay = document.getElementById("totp");
 const qrCodeContainer = document.getElementById("qrcode");
 
+let updateInterval;
+
 document.addEventListener("DOMContentLoaded", () => {
   const savedSecret = localStorage.getItem("authenticator-secret");
   if (savedSecret) {
     secretInput.value = savedSecret;
-    generateTOTP();
+    startTOTPRefresh();
   }
 });
 
@@ -18,9 +20,8 @@ function generateTOTP() {
   }
 
   localStorage.setItem("authenticator-secret", secret);
-  const totp = otplib.authenticator.generate(secret);
-  totpDisplay.textContent = totp;
   generateQRCode(secret);
+  startTOTPRefresh();
 }
 
 function generateQRCode(secret) {
@@ -30,11 +31,33 @@ function generateQRCode(secret) {
   });
 }
 
+function startTOTPRefresh() {
+  if (updateInterval) clearInterval(updateInterval);
+
+  updateTOTP(); 
+  updateInterval = setInterval(updateTOTP, 1000); 
+}
+
+function updateTOTP() {
+  const secret = secretInput.value.trim();
+  if (!secret) return;
+
+  const totp = otplib.authenticator.generate(secret);
+  const remainingTime = 30 - Math.floor(Date.now() / 1000) % 30;
+
+  totpDisplay.textContent = `${totp} (${remainingTime}s)`;
+
+  if (remainingTime === 0) {
+    setTimeout(updateTOTP, 1);
+  }
+}
+
 function clearStorage() {
   localStorage.removeItem("authenticator-secret");
   secretInput.value = "";
   totpDisplay.textContent = "----";
   qrCodeContainer.innerHTML = "";
+  clearInterval(updateInterval);
 }
 
 function editSecret() {
