@@ -11,7 +11,7 @@ add.addEventListener("click", function () {
 
         
         localStorage.setItem("2FA-Token", JSON.stringify(secrets));
-        console.log("2Fa code was added successfully!");
+        console.log("2FA code was added successfully!");
     } else {
         console.log("No 2FA code entered.");
     }
