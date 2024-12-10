@@ -9,12 +9,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#303446] text-white">
-  <div id="sidemenu"></div>
+  <div class="bg-white h-[100vh] w-15" id="sidemenu">
+    
+  </div>
    
   <script type="text/javascript">
     // optlib config
     const auth = window.otplib.authenticator;
-    const input = document.getElementById('-');
+    const secret = document.getElementById('secret-input');
     auth.options = { step: 30 };
     
   </script>
