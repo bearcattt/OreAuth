@@ -4,7 +4,7 @@
 
  add.addEventListener("click", function() {
   const secret = prompt("Please enter your verification code here.")
-  const token = auth.generate(token);
+  const token = auth.generate(secret);
    const validate = auth.verify({ token, secret });
    if (validate) {
      
