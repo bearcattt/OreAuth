@@ -5,12 +5,8 @@
  add.addEventListener("click", function() {
   const secret = prompt("Please enter your verification code here.")
   const token = auth.generate(secret);
-   const validate = auth.verify({ token, secret });
-   if (validate) {
-     
-   } else {
-     alert("invalid verification code")
-   }
+
+  localStorage.setItem("secret", secret)
 }); 
      
 
