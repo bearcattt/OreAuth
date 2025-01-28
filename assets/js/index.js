@@ -4,12 +4,11 @@ auth.options = { step: 30 };
 const addButton = document.getElementById("add");
 const container = document.getElementById("auth-container");
 
-
 addButton.addEventListener("click", () => {
   const secret = prompt("Enter your secret key:");
 
   if (secret) {
-    try 
+    try {
       const otp = auth.generate(secret);
       alert(`Your OTP is: ${otp}`);
     } catch (error) {
