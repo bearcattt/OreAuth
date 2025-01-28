@@ -1,6 +1,6 @@
 const auth = window.otplib.authenticator;
 auth.options = { step: 30 };
-
+console.log(auth)
 const addButton = document.getElementById("Addbtn");
 
 addButton.addEventListener("click", () => {
