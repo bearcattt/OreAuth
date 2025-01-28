@@ -1,8 +1,7 @@
 const auth = window.otplib.authenticator;
 auth.options = { step: 30 };
 
-const addButton = document.getElementById("add");
-const container = document.getElementById("auth-container");
+const addButton = document.getElementById("Addbtn");
 
 addButton.addEventListener("click", () => {
   const secret = prompt("Enter your secret key:");
