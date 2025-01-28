@@ -10,7 +10,7 @@ addButton.addEventListener("click", () => {
       const otp = auth.generate(secret);
       alert(`Your OTP is: ${otp}`);
     } catch (error) {
-      console.error("Error generating OTP:", error);
+      console.error("Error generating the OTP:", error);
       alert("Failed to generate OTP. Please check the secret key.");
     }
   } else {
