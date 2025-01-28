@@ -1,4 +1,4 @@
-const auth = window.otplib.authenticator;
+const auth = window.otplib;
 auth.options = { step: 30 };
 
 const addButton = document.getElementById("Addbtn");
