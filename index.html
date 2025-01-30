@@ -1,17 +1,20 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-     <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OreAuth</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@otplib/preset-browser@^12.0.0/buffer.js"></script>
-<script src="https://unpkg.com/@otplib/preset-browser@^12.0.0/index.js"></script>
-    <meta name="description" content="2FA right in your browser made easy.">
+  <script src="https://unpkg.com/@otplib/preset-browser@^12.0.0/index.js"></script>
+     <script src="assets/js/index.js"></script>
+  <meta name="description" content="2FA right in your browser made easy.">
 </head>
-<body class="flex justify-center items-center min-h-screen bg-[#24273a]">
-    <div id="container" class="rounded-md flex justify-center items-center text-center bg-white w-[400px] h-[516px] leading-none border border-gray-300 shadow-md">
-        d
-    </div>
+<body class="flex justify-center items-center min-h-screen bg-[#24273a] relative">
+  <div id="container">Codes here</div>
+  <button id="Addbtn"
+    class="fixed bottom-4 right-4 flex items-center justify-center w-12 h-12 bg-blue-500 rounded-full hover:bg-blue-600 active:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+    +
+  </button>
+
 </body>
 </html>
