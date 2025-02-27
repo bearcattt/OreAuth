@@ -1,5 +1,6 @@
 const auth = window.otplib.authenticator;
 const addButton = document.getElementById("Addbtn");
+const container = document.getElementById("container");
 auth.options = { step: 30 };
 
 addButton.addEventListener("click", () => {
@@ -7,12 +8,17 @@ addButton.addEventListener("click", () => {
   if (secret) {
     try {
       const otp = auth.generate(secret);
-      alert(`Your 2fa code is: ${otp}`);
+      
+      const otpContainer = document.createElement("div");
+      otpContainer.classList.add("p-2", "bg-gray-800", "text-white", "rounded", "mb-2", "shadow");
+      otpContainer.textContent = `OTP: ${otp}`;
+
+      container.appendChild(otpContainer);
     } catch (error) {
-      throw new Error("Error generating the OTP: " + error);
-      alert("Failed to generate OTP. Please check the otp code.");
+      alert("Failed to generate OTP. Please check the OTP code.");
+      console.error("Error generating the OTP:", error);
     }
   } else {
-    alert("otp code is required to generate a OTP.");
+    alert("OTP code is required to generate a OTP.");
   }
 });
