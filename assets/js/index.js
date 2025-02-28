@@ -12,9 +12,21 @@ function updateCountdowns() {
   document.querySelectorAll(".otp-time").forEach(span => {
     span.textContent = `Refreshing in ${getTimeLeft()}s`;
   });
+
+  if (getTimeLeft() === auth.options.step) {
+    refreshOTPs();
+  }
 }
 
 setInterval(updateCountdowns, 1000);
+
+function refreshOTPs() {
+  document.querySelectorAll(".otp-wrapper").forEach(wrapper => {
+    const secret = wrapper.getAttribute("data-secret");
+    const otpElement = wrapper.querySelector(".otp-code");
+    otpElement.textContent = auth.generate(secret);
+  });
+}
 
 function loadOTPs() {
   container.innerHTML = "";
@@ -23,9 +35,10 @@ function loadOTPs() {
   savedOTPs.forEach(secret => {
     const otpWrapper = document.createElement("div");
     otpWrapper.classList.add(
-      "p-4", "bg-gray-800", "text-white", "rounded-lg", "mb-3", "shadow-lg",
+      "otp-wrapper", "p-4", "bg-gray-800", "text-white", "rounded-lg", "mb-3", "shadow-lg",
       "flex", "justify-between", "items-center", "transition-all", "duration-500", "opacity-0", "scale-95"
     );
+    otpWrapper.setAttribute("data-secret", secret);
 
     setTimeout(() => {
       otpWrapper.classList.remove("opacity-0", "scale-95");
@@ -36,7 +49,7 @@ function loadOTPs() {
     otpContent.classList.add("flex", "flex-col", "items-start");
 
     const otpElement = document.createElement("div");
-    otpElement.classList.add("p-3", "bg-gray-700", "rounded", "font-mono", "text-2xl", "tracking-wider", "text-green-400");
+    otpElement.classList.add("otp-code", "p-3", "bg-gray-700", "rounded", "font-mono", "text-2xl", "tracking-wider", "text-green-400");
     otpElement.textContent = auth.generate(secret);
 
     const timeLeft = document.createElement("span");
@@ -61,15 +74,11 @@ function loadOTPs() {
     otpWrapper.appendChild(otpContent);
     otpWrapper.appendChild(deleteButton);
     container.appendChild(otpWrapper);
-
-    setInterval(() => {
-      otpElement.textContent = auth.generate(secret);
-    }, auth.options.step * 1000);
   });
 }
 
 addButton.addEventListener("click", () => {
-  const secret = prompt("Enter your secret key:");
+  const secret = prompt("Enter your OTP code:");
   if (secret) {
     const savedOTPs = JSON.parse(localStorage.getItem("otps")) || [];
     if (!savedOTPs.includes(secret)) {
@@ -82,5 +91,4 @@ addButton.addEventListener("click", () => {
   }
 });
 
-setInterval(loadOTPs, 30000);
 loadOTPs();
