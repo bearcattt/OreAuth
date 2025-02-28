@@ -35,6 +35,8 @@ function copyToClipboard(text, otpElement) {
     copiedMessage.classList.add("opacity-100");
 
     setTimeout(() => {
+      copiedMessage.classList.add("top-0")
+      copiedMessage.classList.add("left-0")
       copiedMessage.classList.remove("opacity-100");
       copiedMessage.classList.add("opacity-0");
     }, 1000);
