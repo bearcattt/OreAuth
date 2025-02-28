@@ -28,6 +28,14 @@ function refreshOTPs() {
   });
 }
 
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    alert("OTP copied to clipboard!");
+  }).catch(err => {
+    console.error("Failed to copy: ", err);
+  });
+}
+
 function loadOTPs() {
   container.innerHTML = "";
   const savedOTPs = JSON.parse(localStorage.getItem("otps")) || [];
@@ -49,8 +57,9 @@ function loadOTPs() {
     otpContent.classList.add("flex", "flex-col", "items-start");
 
     const otpElement = document.createElement("div");
-    otpElement.classList.add("otp-code", "p-3", "bg-gray-700", "rounded", "font-mono", "text-2xl", "tracking-wider", "text-green-400");
+    otpElement.classList.add("otp-code", "p-3", "bg-gray-700", "rounded", "font-mono", "text-2xl", "tracking-wider", "text-green-400", "cursor-pointer");
     otpElement.textContent = auth.generate(secret);
+    otpElement.addEventListener("click", () => copyToClipboard(otpElement.textContent));
 
     const timeLeft = document.createElement("span");
     timeLeft.classList.add("otp-time", "text-sm", "text-gray-400", "mt-1");
@@ -78,7 +87,7 @@ function loadOTPs() {
 }
 
 addButton.addEventListener("click", () => {
-  const secret = prompt("Enter your OTP code:");
+  const secret = prompt("Enter your secret key:");
   if (secret) {
     const savedOTPs = JSON.parse(localStorage.getItem("otps")) || [];
     if (!savedOTPs.includes(secret)) {
