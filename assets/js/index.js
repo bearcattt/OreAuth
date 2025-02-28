@@ -28,9 +28,16 @@ function refreshOTPs() {
   });
 }
 
-function copyToClipboard(text) {
+function copyToClipboard(text, otpElement) {
   navigator.clipboard.writeText(text).then(() => {
-    alert("OTP copied to clipboard!");
+    const copiedMessage = otpElement.nextElementSibling;
+    copiedMessage.classList.remove("opacity-0");
+    copiedMessage.classList.add("opacity-100");
+
+    setTimeout(() => {
+      copiedMessage.classList.remove("opacity-100");
+      copiedMessage.classList.add("opacity-0");
+    }, 1000);
   }).catch(err => {
     console.error("Failed to copy: ", err);
   });
@@ -57,15 +64,20 @@ function loadOTPs() {
     otpContent.classList.add("flex", "flex-col", "items-start");
 
     const otpElement = document.createElement("div");
-    otpElement.classList.add("otp-code", "p-3", "bg-gray-700", "rounded", "font-mono", "text-2xl", "tracking-wider", "text-green-400", "cursor-pointer");
+    otpElement.classList.add("otp-code", "p-3", "bg-gray-700", "rounded", "font-mono", "text-2xl", "tracking-wider", "text-green-400", "cursor-pointer", "relative");
     otpElement.textContent = auth.generate(secret);
-    otpElement.addEventListener("click", () => copyToClipboard(otpElement.textContent));
+    otpElement.addEventListener("click", () => copyToClipboard(otpElement.textContent, otpElement));
+
+    const copiedMessage = document.createElement("span");
+    copiedMessage.classList.add("text-xs", "text-blue-400", "mt-1", "opacity-0", "transition-opacity", "duration-300");
+    copiedMessage.textContent = "Copied!";
 
     const timeLeft = document.createElement("span");
     timeLeft.classList.add("otp-time", "text-sm", "text-gray-400", "mt-1");
     timeLeft.textContent = `Refreshing in ${getTimeLeft()}s`;
 
     otpContent.appendChild(otpElement);
+    otpContent.appendChild(copiedMessage);
     otpContent.appendChild(timeLeft);
 
     const deleteButton = document.createElement("button");
